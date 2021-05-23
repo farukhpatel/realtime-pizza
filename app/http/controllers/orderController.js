@@ -13,7 +13,12 @@ function orderController() {
 
             })
             order.save().then(result => {
+
                 req.flash('success', 'Order placed successfully')
+
+                // req.session.destroy();
+                console.log(req.session.cart)
+                delete req.session.cart;
                 return res.redirect('/')
             }).catch(err => {
                 console.log(err)
