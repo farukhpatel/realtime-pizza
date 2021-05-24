@@ -279,3 +279,11 @@ body {
   font-family: "Lato", sans-serif;
   color: #232323;
 }
+
+a.link {
+  color: red;
+}
+
+a.link:hover {
+  color: green;
+}

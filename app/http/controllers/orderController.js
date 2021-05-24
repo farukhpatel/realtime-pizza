@@ -1,4 +1,5 @@
 const Order = require('../../models/order');
+const moment=require('moment')
 function orderController() {
     return {
         store(req, res) {
@@ -19,7 +20,7 @@ function orderController() {
                 // req.session.destroy();
                 console.log(req.session.cart)
                 delete req.session.cart;
-                return res.redirect('/')
+                return res.redirect('/customer/order')
             }).catch(err => {
                 console.log(err)
                 req.flash('error', 'Something went wrong')
@@ -27,8 +28,14 @@ function orderController() {
 
 
             })
-
-
+        },
+        async index(req,res){
+            console.log("in order table display page")
+            // console.log("user data")
+            // console.log(req.user)
+            const order=await Order.find({customerId:req.user._id},null,{sort:{'createdAt':-1}})
+            console.log(order)
+            res.render('customers/order',{orders:order,moment:moment})
         }
     }
 }

@@ -48,3 +48,9 @@ addToCart.forEach((btn) => {
 //         text: "Order placed succesfully"
 //     }).show();
 // })
+const alertMsg=document.querySelectorAll('#success-alert')
+if(alertMsg){
+    setTimeout(() => {
+        alertMsg.remove()
+    }, 2000);
+}

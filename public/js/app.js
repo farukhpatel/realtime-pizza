@@ -1894,6 +1894,14 @@ addToCart.forEach(function (btn) {
 //     }).show();
 // })
 
+var alertMsg = document.querySelector('#success-alert');
+
+if (alertMsg) {
+  setTimeout(function () {
+    alertMsg.remove();
+  }, 2000);
+}
+
 /***/ }),
 
 /***/ "./resources/scss/app.scss":
