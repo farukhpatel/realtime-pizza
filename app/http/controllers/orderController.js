@@ -34,7 +34,7 @@ function orderController() {
             // console.log("user data")
             // console.log(req.user)
             const order=await Order.find({customerId:req.user._id},null,{sort:{'createdAt':-1}})
-            console.log(order)
+            // console.log(order)
             res.render('customers/order',{orders:order,moment:moment})
         }
     }

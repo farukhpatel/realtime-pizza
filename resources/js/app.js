@@ -1,4 +1,5 @@
-console.log("javascript part work done ok");
+import initAdmin from './admin';
+
 const cc = document.querySelector('.cartCounter')
 import axios from 'axios';
 import Noty from "noty";
@@ -48,9 +49,11 @@ addToCart.forEach((btn) => {
 //         text: "Order placed succesfully"
 //     }).show();
 // })
-const alertMsg=document.querySelectorAll('#success-alert')
+const alertMsg=document.getElementById('#success_alert');
 if(alertMsg){
     setTimeout(() => {
-        alertMsg.remove()
-    }, 2000);
+        console.log("setTime out ");
+        alertMsg.remove();
+    }, 20);
 }
+initAdmin();

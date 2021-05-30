@@ -1,14 +1,28 @@
-const Order=require('../../../models/order')
-function orderController(){
+const Order = require('./../../../models/order');
+require('./../../../models/user');
+
+function orderController() {
     return {
-        async index(req,res){
-        //   const data=await Order.find({status:{$ne:'completed'}},null,{sort:{'createdAt':-1}})
-        //   .populate('customerId','-password').exac((err,orders)=>{
-              
-              
-        //   })
-          res.send("hello")
+        async index(req, res) {
+            const orders = await Order.find({ status: { $ne: 'completed' } }, null, { sort: { 'createdAt': -1 } });
+            // .populate('customerId', '-password')
+            // .exec((err, orders) => {
+            //     if (req.xhr) {
+            //         return res.json(orders);
+            //     } else {
+            //         res.render('admin/orders');
+            //     }
+            // })
+            console.log(orders);
+            if (req.xhr) {
+                return res.json(orders);
+            } else {
+                res.render('admin/orders');
+            }
+
+
+
         }
     }
 }
-module.exports=orderController
+module.exports = orderController;
