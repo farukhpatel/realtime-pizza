@@ -4,6 +4,9 @@ const passport = require('passport');
 
 
 function authController() {
+    const _getUrl=(req)=>{
+    return req.user.role==='admin'?'/admin/orders':'/customer/order';
+    }
     return {
         //login:(){ }
         login(req, res) {
@@ -30,7 +33,7 @@ function authController() {
 
                     }
 
-                    return res.redirect('/')
+                    return res.redirect(_getUrl(req))
                 })
             })(req, res, next)
 

@@ -37,7 +37,7 @@ function initAdmin(){
              ${order.address}
              </td>
              <td class="border px-4 py-2 text-green-900">
-             status
+             ${order.status}
              </td>
              <td class="border px-4 py-2 ">
              <div class="inline-block relative w-64">
@@ -70,7 +70,7 @@ function initAdmin(){
 
                </form>
 
-
+                
              </div>
              </td>
              <td class="border px-4 py-2">

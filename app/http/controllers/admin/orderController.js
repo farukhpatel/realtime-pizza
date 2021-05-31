@@ -4,22 +4,22 @@ require('./../../../models/user');
 function orderController() {
     return {
         async index(req, res) {
-            const orders = await Order.find({ status: { $ne: 'completed' } }, null, { sort: { 'createdAt': -1 } });
-            // .populate('customerId', '-password')
-            // .exec((err, orders) => {
-            //     if (req.xhr) {
-            //         return res.json(orders);
-            //     } else {
-            //         res.render('admin/orders');
-            //     }
-            // })
-            console.log(orders);
-            if (req.xhr) {
-                return res.json(orders);
-            } else {
-                res.render('admin/orders');
-            }
-
+          Order.find({status:{$ne:'completed'}}, null, { sort: { 'createdAt': -1 } })
+            .populate('customerId','-password')
+            .exec((err, orders) => {
+                if (req.xhr) {
+                    console.log(orders);
+                    return res.json(orders);
+                } else {
+                    res.render('admin/orders');
+                }
+            })
+            
+            // if (req.xhr) {
+            //     return res.json(orders);
+            // } else {
+            //     res.render('admin/orders');
+            // }
 
 
         }
