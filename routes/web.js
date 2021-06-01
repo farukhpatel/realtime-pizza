@@ -10,7 +10,7 @@ const admin= require('../app/http/middleware/admin');
 
 
 const orderControllerAdmin = require('../app/http/controllers/admin/orderController')
-
+const statusController=require('../app/http/controllers/admin/statusController');
 function initRoutes(app) {
     app.get("/", homeController().index);
 
@@ -39,6 +39,6 @@ function initRoutes(app) {
 
     //admin routes
     app.get("/admin/orders",admin,orderControllerAdmin().index)
-
+    app.post("/admin/order/status",admin,statusController().index);
 }
 module.exports = initRoutes;
