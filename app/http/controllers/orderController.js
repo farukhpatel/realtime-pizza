@@ -36,6 +36,16 @@ function orderController() {
             const order=await Order.find({customerId:req.user._id},null,{sort:{'createdAt':-1}})
             // console.log(order)
             res.render('customers/order',{orders:order,moment:moment})
+        },
+        async tracker(req,res){
+            console.log(req.params.id);
+            const order=await Order.findOne({_id:req.params.id});
+            console.log(order);
+            if(req.params.id.toString() === order._id.toString()){
+            return res.render('customers/tracker',{order});
+          }else{
+              return res.redirect('/');
+          }
         }
     }
 }

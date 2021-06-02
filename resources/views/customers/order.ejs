@@ -21,7 +21,7 @@
                     <% orders.forEach((orders)=>{ %>
                         <tr>
                             <td class="border px-4 py-2">
-                                <a class="link" href="/www"> <%= orders._id%></a>
+                                <a class="link" href="/customer/orderStatus/<%= orders._id%>"> <%= orders._id%></a>
                             </td>
                             <td class="border px-4 py-2"><%= orders.phone%></td>
                             <td class="border px-4 py-2"><%= orders.address%></td>

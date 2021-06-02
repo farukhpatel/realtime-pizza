@@ -14,14 +14,6 @@ function orderController() {
                     res.render('admin/orders');
                 }
             })
-            
-            // if (req.xhr) {
-            //     return res.json(orders);
-            // } else {
-            //     res.render('admin/orders');
-            // }
-
-
         }
     }
 }

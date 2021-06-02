@@ -36,6 +36,8 @@ function initRoutes(app) {
     //cart order ontroller  //customer routes as wel
     app.post("/order", auth,orderController().store)
     app.get("/customer/order",auth,orderController().index)
+    app.get("/customer/orderStatus/:id",auth,orderController().tracker);
+
 
     //admin routes
     app.get("/admin/orders",admin,orderControllerAdmin().index)
