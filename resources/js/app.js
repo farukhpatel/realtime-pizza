@@ -1,5 +1,5 @@
 import initAdmin from './admin';
-
+import moment from 'moment';
 const cc = document.querySelector('.cartCounter')
 import axios from 'axios';
 import Noty from "noty";
@@ -57,3 +57,35 @@ if(alertMsg){
     }, 20);
 }
 initAdmin();
+
+//change order status
+let statuses = document.querySelectorAll('.status_line');  //select all li
+let hiddenInput=document.querySelector('#hiddenInput');
+let order=hiddenInput ? hiddenInput.value : null;
+order=JSON.parse(order);
+console.log(order.status);
+let time = document.createElement('small'); //creating small tag in html
+function updateStatus(order){
+    console.log("function work")
+   let stepCompleted=true;
+   statuses.forEach((status)=>{
+       let dataProp=status.dataset.status;
+       console.log(dataProp);
+       if(stepCompleted){
+        status.classList.add('step-completed');
+       }
+       console.log(dataProp);
+       console.log(order.status);
+       if(dataProp===order.status){
+          
+            stepCompleted = false;
+            time.innerText = moment(order.updatedAt).format('hh:mm A');
+            status.appendChild(time);
+            if(status.nextElementSibling) {
+                status.nextElementSibling.classList.add('current');
+               }
+       }    //dataProp='confirmed prepared'
+   })
+
+}
+updateStatus(order);

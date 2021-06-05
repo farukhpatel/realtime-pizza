@@ -1890,10 +1890,13 @@ module.exports = initAdmin;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./admin */ "./resources/js/admin.js");
 /* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_admin__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
-/* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
+/* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_3__);
+
 
 var cc = document.querySelector('.cartCounter');
 
@@ -1902,10 +1905,10 @@ var cc = document.querySelector('.cartCounter');
 var updateCart = function updateCart(pizza) {
   console.log("update cart work");
   console.log(pizza);
-  axios__WEBPACK_IMPORTED_MODULE_1___default().post('/update-cart', pizza).then(function (res) {
+  axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update-cart', pizza).then(function (res) {
     console.log("u");
     console.log(res.data);
-    new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
+    new (noty__WEBPACK_IMPORTED_MODULE_3___default())({
       type: 'success',
       layout: 'topCenter',
       theme: 'mint',
@@ -1914,7 +1917,7 @@ var updateCart = function updateCart(pizza) {
     }).show();
     cc.innerText = res.data.totalqty;
   })["catch"](function (error) {
-    new (noty__WEBPACK_IMPORTED_MODULE_2___default())({
+    new (noty__WEBPACK_IMPORTED_MODULE_3___default())({
       type: 'warning',
       layout: 'topCenter',
       theme: 'mint',
@@ -1951,7 +1954,44 @@ if (alertMsg) {
   }, 20);
 }
 
-_admin__WEBPACK_IMPORTED_MODULE_0___default()();
+_admin__WEBPACK_IMPORTED_MODULE_0___default()(); //change order status
+
+var statuses = document.querySelectorAll('.status_line'); //select all li
+
+var hiddenInput = document.querySelector('#hiddenInput');
+var order = hiddenInput ? hiddenInput.value : null;
+order = JSON.parse(order);
+console.log(order.status);
+var time = document.createElement('small'); //creating small tag in html
+
+function updateStatus(order) {
+  console.log("function work");
+  var stepCompleted = true;
+  statuses.forEach(function (status) {
+    var dataProp = status.dataset.status;
+    console.log(dataProp);
+
+    if (stepCompleted) {
+      status.classList.add('step-completed');
+    }
+
+    console.log(dataProp);
+    console.log(order.status);
+
+    if (dataProp === order.status) {
+      stepCompleted = false;
+      time.innerText = moment__WEBPACK_IMPORTED_MODULE_1___default()(order.updatedAt).format('hh:mm A');
+      status.appendChild(time);
+
+      if (status.nextElementSibling) {
+        status.nextElementSibling.classList.add('current');
+      }
+    } //dataProp='confirmed prepared'
+
+  });
+}
+
+updateStatus(order);
 
 /***/ }),
 
