@@ -4,8 +4,8 @@ function orderController() {
     return {
         store(req, res) {
             const { address, phone } = req.body;
-            console.log(address)
-            console.log(req.session.cart.items)
+            // console.log(address)
+            // console.log(req.session.cart.items)
             const order = new Order({
                 customerId: req.user._id,
                 items: req.session.cart.items,
@@ -18,11 +18,11 @@ function orderController() {
                 req.flash('success', 'Order placed successfully')
 
                 // req.session.destroy();
-                console.log(req.session.cart)
+                // console.log(req.session.cart)
                 delete req.session.cart;
                 return res.redirect('/customer/order')
             }).catch(err => {
-                console.log(err)
+                // console.log(err)
                 req.flash('error', 'Something went wrong')
                 return res.redirect('/cart')
 
@@ -30,7 +30,7 @@ function orderController() {
             })
         },
         async index(req,res){
-            console.log("in order table display page")
+            // console.log("in order table display page")
             // console.log("user data")
             // console.log(req.user)
             const order=await Order.find({customerId:req.user._id},null,{sort:{'createdAt':-1}})
@@ -38,9 +38,9 @@ function orderController() {
             res.render('customers/order',{orders:order,moment:moment})
         },
         async tracker(req,res){
-            console.log(req.params.id);
+            // console.log(req.params.id);
             const order=await Order.findOne({_id:req.params.id});
-            console.log(order);
+            // console.log(order);
             if(req.params.id.toString() === order._id.toString()){
             return res.render('customers/tracker',{order});
           }else{

@@ -1896,6 +1896,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! noty */ "./node_modules/noty/lib/noty.js");
 /* harmony import */ var noty__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(noty__WEBPACK_IMPORTED_MODULE_3__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var cc = document.querySelector('.cartCounter');
@@ -1903,11 +1909,7 @@ var cc = document.querySelector('.cartCounter');
 
 
 var updateCart = function updateCart(pizza) {
-  console.log("update cart work");
-  console.log(pizza);
   axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update-cart', pizza).then(function (res) {
-    console.log("u");
-    console.log(res.data);
     new (noty__WEBPACK_IMPORTED_MODULE_3___default())({
       type: 'success',
       layout: 'topCenter',
@@ -1949,7 +1951,6 @@ var alertMsg = document.getElementById('#success_alert');
 
 if (alertMsg) {
   setTimeout(function () {
-    console.log("setTime out ");
     alertMsg.remove();
   }, 20);
 }
@@ -1960,23 +1961,22 @@ var statuses = document.querySelectorAll('.status_line'); //select all li
 
 var hiddenInput = document.querySelector('#hiddenInput');
 var order = hiddenInput ? hiddenInput.value : null;
-order = JSON.parse(order);
-console.log(order.status);
+order = JSON.parse(order); // console.log(order.status);
+
 var time = document.createElement('small'); //creating small tag in html
 
 function updateStatus(order) {
-  console.log("function work");
+  statuses.forEach(function (status) {
+    status.classList.remove('step-completed');
+    status.classList.remove('current');
+  });
   var stepCompleted = true;
   statuses.forEach(function (status) {
     var dataProp = status.dataset.status;
-    console.log(dataProp);
 
     if (stepCompleted) {
       status.classList.add('step-completed');
     }
-
-    console.log(dataProp);
-    console.log(order.status);
 
     if (dataProp === order.status) {
       stepCompleted = false;
@@ -1989,8 +1989,31 @@ function updateStatus(order) {
     } //dataProp='confirmed prepared'
 
   });
+} //code for socket.io
+
+
+var socket = io(); //join if order available
+
+if (order) {
+  socket.emit('join_emit', "order_".concat(order._id));
 }
 
+socket.on('finalOrderUpdated', function (data) {
+  console.log(data);
+
+  var updatedOrder = _objectSpread({}, order);
+
+  updatedOrder.updatedAt = moment__WEBPACK_IMPORTED_MODULE_1___default()().format();
+  updatedOrder.status = data.status;
+  updateStatus(updatedOrder);
+  new (noty__WEBPACK_IMPORTED_MODULE_3___default())({
+    type: 'success',
+    layout: 'topCenter',
+    theme: 'mint',
+    timeout: 1000,
+    text: "Order Status Updated By Admin"
+  }).show();
+});
 updateStatus(order);
 
 /***/ }),

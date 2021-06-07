@@ -4,11 +4,7 @@ const cc = document.querySelector('.cartCounter')
 import axios from 'axios';
 import Noty from "noty";
 const updateCart = (pizza) => {
-    console.log("update cart work")
-    console.log(pizza)
     axios.post('/update-cart', pizza).then((res) => {
-        console.log("u")
-        console.log(res.data)
         new Noty({
             type: 'success',
             layout: 'topCenter',
@@ -49,10 +45,9 @@ addToCart.forEach((btn) => {
 //         text: "Order placed succesfully"
 //     }).show();
 // })
-const alertMsg=document.getElementById('#success_alert');
-if(alertMsg){
+const alertMsg = document.getElementById('#success_alert');
+if (alertMsg) {
     setTimeout(() => {
-        console.log("setTime out ");
         alertMsg.remove();
     }, 20);
 }
@@ -60,32 +55,60 @@ initAdmin();
 
 //change order status
 let statuses = document.querySelectorAll('.status_line');  //select all li
-let hiddenInput=document.querySelector('#hiddenInput');
-let order=hiddenInput ? hiddenInput.value : null;
-order=JSON.parse(order);
-console.log(order.status);
+let hiddenInput = document.querySelector('#hiddenInput');
+let order = hiddenInput ? hiddenInput.value : null;
+order = JSON.parse(order);
+// console.log(order.status);
 let time = document.createElement('small'); //creating small tag in html
-function updateStatus(order){
-    console.log("function work")
-   let stepCompleted=true;
-   statuses.forEach((status)=>{
-       let dataProp=status.dataset.status;
-       console.log(dataProp);
-       if(stepCompleted){
-        status.classList.add('step-completed');
-       }
-       console.log(dataProp);
-       console.log(order.status);
-       if(dataProp===order.status){
-          
+function updateStatus(order) {
+    statuses.forEach((status) => {
+        status.classList.remove('step-completed')
+        status.classList.remove('current')
+    })
+
+    let stepCompleted = true;
+    statuses.forEach((status) => {
+        let dataProp = status.dataset.status;
+        if (stepCompleted) {
+            status.classList.add('step-completed');
+        }
+        if (dataProp === order.status) {
+
             stepCompleted = false;
             time.innerText = moment(order.updatedAt).format('hh:mm A');
             status.appendChild(time);
-            if(status.nextElementSibling) {
+            if (status.nextElementSibling) {
                 status.nextElementSibling.classList.add('current');
-               }
-       }    //dataProp='confirmed prepared'
-   })
+            }
+        }    //dataProp='confirmed prepared'
+    })
 
 }
+
+
+
+//code for socket.io
+const socket = io();
+//join if order available
+if (order) {
+    socket.emit('join_emit', `order_${order._id}`);
+}
+socket.on('finalOrderUpdated', (data) => {
+    // console.log(data);
+
+    
+    let updatedOrder={...order}
+    updatedOrder.updatedAt = moment().format();
+    updatedOrder.status = data.status;
+    updateStatus(updatedOrder);
+    new Noty({
+        type: 'success',
+        layout: 'topCenter',
+        theme: 'mint',
+        timeout: 1000,
+        text: "Order Status Updated By Admin"
+    }).show();
+});
+
+
 updateStatus(order);

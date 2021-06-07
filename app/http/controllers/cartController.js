@@ -9,7 +9,7 @@ function homeController() {
         },
 
         update(req, res) {
-            console.log("update cart process to send response")
+            // console.log("update cart process to send response")
 
             //logic part storing in databas items
 
@@ -41,7 +41,7 @@ function homeController() {
             }
 
 
-            console.log(req.session.cart)
+            // console.log(req.session.cart)
             return res.json({ totalqty: req.session.cart.totalQty })
 
 

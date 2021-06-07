@@ -8,7 +8,6 @@ function orderController() {
             .populate('customerId','-password')
             .exec((err, orders) => {
                 if (req.xhr) {
-                    console.log(orders);
                     return res.json(orders);
                 } else {
                     res.render('admin/orders');

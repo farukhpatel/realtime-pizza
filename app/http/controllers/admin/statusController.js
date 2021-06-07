@@ -5,11 +5,13 @@ function statusController() {
             Order.updateOne({ _id: req.body.orderId },
                 { status: req.body.status }, function (err, docs) {
                     if (err) {
-                        console.log(err)
                         return res.redirect('/admin/orders');
                     }
                     else {
-                        console.log("Updated Docs : ", docs);
+                        //event emit
+                        const eventEmitter=req.app.get('eventEmitter');
+                        eventEmitter.emit('orderUpdated',{id:req.body.orderId,status:req.body.status})
+                        // console.log("Updated Docs : ", docs);
                         return res.redirect('/admin/orders');
                     }
                 });

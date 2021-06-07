@@ -45,7 +45,6 @@ function authController() {
         async postRegister(req, res) {
             const { name, email, password } = req.body;
             const hashPassword = await b.hash(password, 10)
-            console.log(req.body);
             const user = new User({
                 name: name,
                 email: email,
@@ -59,7 +58,7 @@ function authController() {
             })
         },
         logout(req, res) {
-            console.log("logout work")
+            // console.log("logout work")
             //logout methode are provided by passport
 
             req.logout();

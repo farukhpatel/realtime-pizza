@@ -7,6 +7,7 @@ const path = require('path');
 const expressEjsLayouts = require("express-ejs-layouts");
 const flash = require('express-flash');
 const passport = require('passport')
+const Emitter=require('events');
 
 //for favicon icon
 //var connect = require('connect')
@@ -22,8 +23,9 @@ app.use(express.json())
 app.set('views', path.join(__dirname, "../resources/views"));
 app.set('view engine', 'ejs');
 
-
-
+//for set Emitter
+const eventEmitter=new Emitter();
+app.set('eventEmitter',eventEmitter);
 //session store in database
 const MongoStore = require('connect-mongo');
 
@@ -77,6 +79,22 @@ f(app);
 app.use(favicon(path.join(__dirname, '../public', 'favicon.ico')))
 //listen the server
 const port = process.env.PORT || 3300;
-app.listen(port, () => {
+const server=app.listen(port, () => {
     console.log(`listenning on port ${port}`);
+});
+
+//for socket real time communication
+const io=require('socket.io')(server);
+io.on('connection',(socket)=>{
+    console.log("connection of socket.io done");
+    socket.on('join_emit',(orderId)=>{
+        console.log(orderId);
+        socket.join(orderId);
+    });
+})
+//releted to event emitter
+eventEmitter.on('orderUpdated',(data)=>{
+    console.log("event emmit");
+    console.log(data.id);
+    io.to(`order_${data.id}`).emit('finalOrderUpdated',data);
 });
