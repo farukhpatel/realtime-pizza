@@ -95,8 +95,6 @@ if (order) {
 }
 socket.on('finalOrderUpdated', (data) => {
     // console.log(data);
-
-    
     let updatedOrder={...order}
     updatedOrder.updatedAt = moment().format();
     updatedOrder.status = data.status;

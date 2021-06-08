@@ -86,15 +86,15 @@ const server=app.listen(port, () => {
 //for socket real time communication
 const io=require('socket.io')(server);
 io.on('connection',(socket)=>{
-    console.log("connection of socket.io done");
+    // console.log("connection of socket.io done");
     socket.on('join_emit',(orderId)=>{
-        console.log(orderId);
+        // console.log(orderId);
         socket.join(orderId);
     });
 })
 //releted to event emitter
 eventEmitter.on('orderUpdated',(data)=>{
-    console.log("event emmit");
-    console.log(data.id);
+    // console.log("event emmit");
+    // console.log(data.id);
     io.to(`order_${data.id}`).emit('finalOrderUpdated',data);
 });

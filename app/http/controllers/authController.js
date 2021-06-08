@@ -51,9 +51,9 @@ function authController() {
                 password: hashPassword
             })
             user.save().then((r) => { return res.redirect('/') }).catch((e) => {
-                console.log(e);
+                // console.log(e);
                 req.flash('error', 'something went wrong please try again')
-                return res.redirect('/resgister');
+                return res.render('auth/register');
 
             })
         },

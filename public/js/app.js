@@ -1999,8 +1999,7 @@ if (order) {
 }
 
 socket.on('finalOrderUpdated', function (data) {
-  console.log(data);
-
+  // console.log(data);
   var updatedOrder = _objectSpread({}, order);
 
   updatedOrder.updatedAt = moment__WEBPACK_IMPORTED_MODULE_1___default()().format();

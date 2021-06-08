@@ -119,3 +119,13 @@ section.status {
     font-size: 14px;
     margin-top: 8px;
 }
+
+@media(max-width:1066px){
+    table{
+        display: block;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+
+    }
+    
+}
