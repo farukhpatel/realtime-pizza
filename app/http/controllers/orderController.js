@@ -35,6 +35,9 @@ function orderController() {
             // console.log(req.user)
             const order=await Order.find({customerId:req.user._id},null,{sort:{'createdAt':-1}})
             // console.log(order)
+            if (req.user.role === "admin") {
+            return res.redirect("/admin/orders");
+            }
             res.render('customers/order',{orders:order,moment:moment})
         },
         async tracker(req,res){
