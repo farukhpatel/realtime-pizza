@@ -31,7 +31,7 @@ function initAdmin(){
           <tr>
              <td class="border px-4 py-2 text-green-900">
              <p>${order._id}</p>
-             <p>Customer Name:-${order.customerId.name}</p>
+            
              <div>${renderItems(order.items)}</div>
              </td>
              <td class="border px-4 py-2 text-green-900">
@@ -79,5 +79,6 @@ function initAdmin(){
           `;
       }).join('');  //join one array data and then second then and then
     }
+//      <p>Customer Name:-${order.customerId.name}</p>
 }
 module.exports=initAdmin;
